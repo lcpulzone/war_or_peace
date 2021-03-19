@@ -13,6 +13,9 @@ class PlayerTest < Minitest::Test
     @card4 = Card.new(:club, '5', 5)
     @deck = Deck.new(@cards)
     @player = Player.new('Clarisa', @deck)
+    @deck.add_card(@card1)
+    @deck.add_card(@card2)
+    @deck.add_card(@card3)
   end
 
   def test_it_exists
@@ -20,19 +23,11 @@ class PlayerTest < Minitest::Test
   end
 
   def test_it_has_a_name_and_a_deck
-    @deck.add_card(@card1)
-    @deck.add_card(@card2)
-    @deck.add_card(@card3)
-
     assert_equal "Clarisa", @player.name
     assert_equal @deck, @player.deck
   end
 
   def test_player_loses_when_deck_is_empty
-    @deck.add_card(@card1)
-    @deck.add_card(@card2)
-    @deck.add_card(@card3)
-
     assert_equal false, @player.has_lost?
 
     @player.deck.remove_card
@@ -48,5 +43,13 @@ class PlayerTest < Minitest::Test
     assert_equal true, @player.has_lost?
 
     assert_equal @deck, @player.deck
+  end
+
+  def test_it_can_find_rank_of_card_in_deck
+    assert_equal 12, @player.rank_of_card(0)
+  end
+
+  def test_it_can_find_high_ranking_cards
+
   end
 end
