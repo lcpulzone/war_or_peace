@@ -1,16 +1,17 @@
 class Player
   attr_reader  :name,
-                    :deck,
-                    :lost
+                    :deck
 
   def initialize(name, deck)
     @name = name
     @deck = deck
-    @lost = false
   end
 
   def has_lost?
-    @lost = true if @deck.cards.empty? == true
-    @lost
+    deck.cards.empty?
+  end
+
+  def rank_of_card(index)
+    deck.rank_of_card_at(index)
   end
 end
