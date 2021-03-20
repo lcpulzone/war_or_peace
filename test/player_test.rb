@@ -50,6 +50,15 @@ class PlayerTest < Minitest::Test
   end
 
   def test_it_can_find_high_ranking_cards
+    assert_equal [@card1, @card3], @player.high_ranking_cards
+  end
 
+  def test_it_can_add_a_card_to_the_deck
+    @player.add_card(@card4)
+    assert_equal @deck, @player.deck
+  end
+
+  def test_it_can_remove_a_card_from_the_front
+    assert_equal @card1, @player.remove_card
   end
 end
