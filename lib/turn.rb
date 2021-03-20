@@ -74,4 +74,18 @@ class Turn
       player2.remove_card
     end
   end
+
+  def winner
+    if mad_card_comparison
+      return "No Winner"
+    elsif war_card_comparison && @player1.rank_of_card(2) > @player2.rank_of_card(2)
+      return @player1
+    elsif war_card_comparison && @player1.rank_of_card(2) < @player2.rank_of_card(2)
+      return@player2
+    elsif basic_card_comparison_p1
+      return @player1
+    elsif basic_card_comparison_p2
+      return @player2
+    end
+  end
 end
