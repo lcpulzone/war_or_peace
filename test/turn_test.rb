@@ -46,6 +46,7 @@ class TurnTest < Minitest::Test
   def test_it_can_have_a_basic_turn
     assert_equal :basic, @turn. type
     assert_equal [@card3], @turn.spoils_of_war
+    assert_equal @player1, @turn.winner
   end
 
   def test_it_can_have_a_war_turn
@@ -67,6 +68,7 @@ class TurnTest < Minitest::Test
 
     assert_equal :war, @turn.type
     assert_equal [@card1, @card2, @card5, @card4, @card3, @card6], @turn.spoils_of_war
+    assert_equal @player2, @turn.winner
   end
 
   def test_it_can_have_mutually_assured_destruction
@@ -86,12 +88,10 @@ class TurnTest < Minitest::Test
     @deck2.add_card(@card7)
 
     @turn = Turn.new(@player1, @player2)
+    assert_equal "No Winner", @turn.winner
     assert_equal :mutually_assured_destruction, @turn.type
     refute_equal [@card1, @card2, @card5], @turn.player1
     refute_equal [@card4, @card3, @card6], @turn.player2
   end
 
-  def test_it_can_name_a_winner_in_a_basic_turn
-    assert_equal @player1, @turn.winner
-  end
 end
