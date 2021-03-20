@@ -68,4 +68,30 @@ class TurnTest < Minitest::Test
     assert_equal :war, @turn.type
     assert_equal [@card1, @card2, @card5, @card4, @card3, @card6], @turn.spoils_of_war
   end
+
+  def test_it_can_have_mutually_assured_destruction
+    @deck1 = Deck.new([@card1, @card2, @card5, @card8])
+    @player1 = Player.new("Megan", @deck1)
+    @deck1.add_card(@card1)
+    @deck1.add_card(@card2)
+    @deck1.add_card(@card5)
+    @deck1.add_card(@card8)
+
+    @card6 = Card.new(:diamond, '8', 8)
+    @deck2 = Deck.new([@card4, @card3, @card6, @card7])
+    @player2 = Player.new("Aurora", @deck2)
+    @deck2.add_card(@card4)
+    @deck2.add_card(@card3)
+    @deck2.add_card(@card6)
+    @deck2.add_card(@card7)
+
+    @turn = Turn.new(@player1, @player2)
+    assert_equal :mutually_assured_destruction, @turn.type
+    refute_equal [@card1, @card2, @card5], @turn.player1
+    refute_equal [@card4, @card3, @card6], @turn.player2
+  end
+
+  def test_it_can_name_a_winner_in_a_basic_turn
+    assert_equal @player1, @turn.winner
+  end
 end
