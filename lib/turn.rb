@@ -43,9 +43,9 @@ class Turn
   def winner
     if mad_card_comparison
       return "No Winner"
-    elsif war_card_comparison && @player1.rank_of_card(2) > @player2.rank_of_card(2)
+    elsif war_card_comparison && p1_third_card_higher
       return @player1
-    elsif war_card_comparison && @player1.rank_of_card(2) < @player2.rank_of_card(2)
+    elsif war_card_comparison && p2_third_card_higher
       return@player2
     elsif basic_card_comparison_p1
       return @player1
@@ -85,6 +85,7 @@ class Turn
     third_card_rank_not_equal && first_card_rank_comparison
   end
 
+
   def mad_card_comparison
     third_card_rank_is_equal && first_card_rank_comparison
   end
@@ -101,6 +102,14 @@ class Turn
     end
   end
 
+  def p1_third_card_higher
+    @player1.rank_of_card(2) > @player2.rank_of_card(2)
+  end
+
+  def p2_third_card_higher
+    @player1.rank_of_card(2) < @player2.rank_of_card(2)
+  end
+  
   def first_card_rank_comparison
     player1.rank_of_card(0) == player2.rank_of_card(0)
   end
