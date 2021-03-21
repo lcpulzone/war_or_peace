@@ -28,50 +28,15 @@ class Turn
     end
   end
 
-  def basic_card_comparison_p1
-    player1.rank_of_card(0) > player2.rank_of_card(0)
-      spoils_of_war << player2.deck.cards[0]
-  end
-
-  def basic_card_comparison_p2
-    player1.rank_of_card(0) < player2.rank_of_card(0)
-    spoils_of_war << player1.deck.cards[0]
-  end
-
   def war
     if war_card_comparison
-    spoils_of_war << player1.deck.cards[0..2]
-    spoils_of_war << player2.deck.cards[0..2]
-    spoils_of_war.flatten!
-    :war
+      :war
     end
-  end
-
-  def war_card_comparison
-    player1.rank_of_card(2) != player2.rank_of_card(2) && player1.rank_of_card(0) == player2.rank_of_card(0)
   end
 
   def mutually_assured_destruction
     if mad_card_comparison
-      mad_p1_remove_cards
-      mad_p2_remove_cards
-    :mutually_assured_destruction
-    end
-  end
-
-  def mad_card_comparison
-    player1.rank_of_card(2) == player2.rank_of_card(2) && player1.rank_of_card(0) == player2.rank_of_card(0)
-  end
-
-  def mad_p1_remove_cards
-    3.times do
-      player1.remove_card
-    end
-  end
-
-  def mad_p2_remove_cards
-    3.times do
-      player2.remove_card
+      :mutually_assured_destruction
     end
   end
 
@@ -87,5 +52,60 @@ class Turn
     elsif basic_card_comparison_p2
       return @player2
     end
+  end
+
+  def pile_cards
+    if mad_card_comparison
+      mad_p1_remove_cards
+      mad_p2_remove_cards
+    elsif war_card_comparison
+      spoils_of_war << player1.deck.cards[0..2]
+      spoils_of_war << player2.deck.cards[0..2]
+      spoils_of_war.flatten!
+    elsif basic_card_comparison_p1
+      spoils_of_war << player2.deck.cards[0]
+    elsif basic_card_comparison_p2
+      spoils_of_war << player1.deck.cards[0]
+    end
+  end
+
+  def basic_card_comparison_p1
+    player1.rank_of_card(0) > player2.rank_of_card(0)
+  end
+
+  def basic_card_comparison_p2
+    player1.rank_of_card(0) < player2.rank_of_card(0)
+  end
+
+  def war_card_comparison
+    third_card_rank_not_equal && first_card_rank_comparison
+  end
+
+  def mad_card_comparison
+    third_card_rank_is_equal && first_card_rank_comparison
+  end
+
+  def mad_p1_remove_cards
+    3.times do
+      player1.remove_card
+    end
+  end
+
+  def mad_p2_remove_cards
+    3.times do
+      player2.remove_card
+    end
+  end
+
+  def first_card_rank_comparison
+    player1.rank_of_card(0) == player2.rank_of_card(0)
+  end
+
+  def third_card_rank_not_equal
+    player1.rank_of_card(2) != player2.rank_of_card(2)
+  end
+
+  def third_card_rank_is_equal
+    player1.rank_of_card(2) == player2.rank_of_card(2)
   end
 end
