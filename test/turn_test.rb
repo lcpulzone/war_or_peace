@@ -50,6 +50,10 @@ class TurnTest < Minitest::Test
 
     assert_equal [@card3], @turn.spoils_of_war
     assert_equal @player1, @turn.winner
+
+    @turn.award_spoils(@player1)
+
+    assert_equal @deck1, @turn.player1.deck
   end
 
   def test_it_can_have_a_war_turn
@@ -75,6 +79,10 @@ class TurnTest < Minitest::Test
 
     assert_equal [@card1, @card2, @card5, @card4, @card3, @card6], @turn.spoils_of_war
     assert_equal @player2, @turn.winner
+
+    @turn.award_spoils(@player2)
+
+    assert_equal @deck2, @turn.player2.deck
   end
 
   def test_it_can_have_mutually_assured_destruction
