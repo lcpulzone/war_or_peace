@@ -69,6 +69,10 @@ class Turn
     end
   end
 
+  def award_spoils(winner)
+    winner.add_card(@spoils_of_war).flatten!
+  end
+
   def basic_card_comparison_p1
     player1.rank_of_card(0) > player2.rank_of_card(0)
   end
